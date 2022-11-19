@@ -93,13 +93,12 @@ const Register = () => {
           >
             Zarejestruj się
           </Button>
-          <LinkRouter
+          <Link
+            as={LinkRouter}
             to={'/login'}
           >
-            <Link>
-              Masz już konto? Zaloguj się
-            </Link>
-          </LinkRouter>
+            Masz już konto? Zaloguj się
+          </Link>
         </div>
       </div>
     </div>
