@@ -93,13 +93,12 @@ const Login = () => {
           >
             Zaloguj
           </Button>
-          <LinkRouter
+          <Link
+            as={LinkRouter}
             to={'/register'}
           >
-            <Link>
-              Nie masz konta? Zarejestruj się
-            </Link>
-          </LinkRouter>
+            Nie masz konta? Zarejestruj się
+          </Link>
         </div>
       </div>
     </div>
