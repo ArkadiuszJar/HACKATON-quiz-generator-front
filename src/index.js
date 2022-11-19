@@ -9,27 +9,36 @@ import {
 import Home from './routes/Home'
 import Login from './routes/Login'
 import QuizArticles from './routes/QuizArticles'
+import AuthProvider from './AuthProvider'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <AuthProvider>
+      <Home />
+    </AuthProvider>
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <AuthProvider>
+      <Login />
+    </AuthProvider>
   },
   {
     path: "/quiz/articles",
-    element: <QuizArticles />
+    element: <AuthProvider>
+      <QuizArticles />
+    </AuthProvider>
   }
 ])
+
+router.navigate()
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </ChakraProvider>
   </React.StrictMode>
 );
