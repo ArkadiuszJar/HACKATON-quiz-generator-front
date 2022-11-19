@@ -5,14 +5,14 @@ import { EmailIcon } from "@chakra-ui/icons"
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { Link as LinkRouter, useNavigate } from 'react-router-dom'
-import { login } from '../adapters/login'
+import { register } from '../adapters/register'
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate()
   const [, setCookie] = useCookies(['bearerToken'])
   const [
-    loginButtonLoading,
-    setLoginButtonLoading,
+    registerButtonLoading,
+    setRegisterButtonLoading,
   ] = useState(false)
   const[
     email,
@@ -22,23 +22,23 @@ const Login = () => {
     password,
     setPassword
   ] = useState('')
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      setLoginButtonLoading(true)
-      const response = await login(email, password)
+      setRegisterButtonLoading(true)
+      const response = await register(email, password)
       setCookie('bearerToken', response.data.bearerToken)
       navigate('/quiz/articles')
     } catch (error) {
       console.error(error)
     } finally {
-      setLoginButtonLoading(false)
+      setRegisterButtonLoading(false)
     }
   }
   return (
     <div className="bg-slate-100 w-screen h-screen flex items-center justify-center ">
       <div className="bg-white w-1/4 rounded-3xl flex flex-col items-center p-8">
         <p className="text-slate-700 font-lato font-bold text-3xl text-center">
-          Zaloguj się
+          Zarejestruj się
         </p>
         <div className="mx-auto flex flex-col items-center">
           <InputGroup mt={6}>
@@ -55,7 +55,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  handleLogin()
+                  handleRegister()
                 }
               }}
               type={'email'}
@@ -76,7 +76,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  handleLogin()
+                  handleRegister()
                 }
               }}
               type={'password'}
@@ -88,16 +88,16 @@ const Login = () => {
             mx="auto"
             size="lg"
             colorScheme="blue"
-            onClick={handleLogin}
-            isLoading={loginButtonLoading}
+            onClick={handleRegister}
+            isLoading={registerButtonLoading}
           >
-            Zaloguj
+            Zarejestruj się
           </Button>
           <LinkRouter
-            to={'/register'}
+            to={'/login'}
           >
             <Link>
-              Nie masz konta? Zarejestruj się
+              Masz już konto? Zaloguj się
             </Link>
           </LinkRouter>
         </div>
@@ -106,4 +106,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

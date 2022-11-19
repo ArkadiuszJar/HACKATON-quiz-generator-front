@@ -7,7 +7,7 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import QuizArticles from "./routes/QuizArticles";
 import AuthProvider from "./AuthProvider";
-import Questions from "./routes/Questions";
+import Register from "./routes/Register";
 
 const router = createBrowserRouter([
   {
@@ -27,18 +27,18 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/quiz/articles",
+    path: "/register",
     element: (
       <AuthProvider>
-        <QuizArticles />
+        <Register />
       </AuthProvider>
     ),
   },
   {
-    path: "/questions",
+    path: "/quiz/articles",
     element: (
       <AuthProvider>
-        <Questions />
+        <QuizArticles />
       </AuthProvider>
     ),
   },
