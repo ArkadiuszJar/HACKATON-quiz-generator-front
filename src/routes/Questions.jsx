@@ -5,7 +5,6 @@ import {
   ArrowBackIcon,
   ArrowForwardIcon,
   WarningIcon,
-  MinusIcon,
 } from "@chakra-ui/icons";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 

@@ -8,6 +8,7 @@ import Login from "./routes/Login";
 import QuizArticles from "./routes/QuizArticles";
 import AuthProvider from "./AuthProvider";
 import Register from "./routes/Register";
+import Questions from "./routes/Questions";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
     element: (
       <AuthProvider>
         <QuizArticles />
+      </AuthProvider>
+    ),
+  },
+  {
+    path: "/questions",
+    element: (
+      <AuthProvider>
+        <Questions />
       </AuthProvider>
     ),
   },
