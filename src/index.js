@@ -5,22 +5,37 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
-import Questions from "./routes/Questions";
+import QuizArticles from "./routes/QuizArticles";
+import AuthProvider from "./AuthProvider";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <AuthProvider>
+        <Home />
+      </AuthProvider>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <AuthProvider>
+        <Login />
+      </AuthProvider>
+    ),
   },
   {
-    path: "/questions",
-    element: <Questions />,
+    path: "/quiz/articles",
+    element: (
+      <AuthProvider>
+        <QuizArticles />
+      </AuthProvider>
+    ),
   },
 ]);
+
+router.navigate();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
