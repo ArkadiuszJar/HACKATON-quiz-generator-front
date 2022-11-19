@@ -9,6 +9,7 @@ import QuizArticles from "./routes/QuizArticles";
 import AuthProvider from "./AuthProvider";
 import Register from "./routes/Register";
 import Questions from "./routes/Questions";
+import NotFound from "./routes/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
         <Questions />
       </AuthProvider>
     ),
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
