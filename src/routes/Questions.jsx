@@ -16,34 +16,7 @@ const Questions = () => {
   const client = apiClient();
   let [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [questionsAnswers, setQuestionsAnswers] = useState([
-    {
-      question: "What is the capital of France?",
-      answers: [
-        {
-          text: "Paris",
-          isCorrect: true,
-        },
-        {
-          text: "London",
-          isCorrect: false,
-        },
-      ],
-    },
-    {
-      question: "How old was Jesus when he died?",
-      answers: [
-        {
-          text: "19",
-          isCorrect: true,
-        },
-        {
-          text: "22",
-          isCorrect: false,
-        },
-      ],
-    },
-  ]);
+  const [questionsAnswers, setQuestionsAnswers] = useState([]);
   const [savedQuestionsAnswers, setSavedQuestionsAnswers] = useState([]);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
   const selectedQuestionAnswer = useMemo(() => {
@@ -72,7 +45,7 @@ const Questions = () => {
       const response = await client.post("/quiz/generate", {
         urls: articles.split(";"),
       });
-      // setQuestionsAnswers(response.data)
+      setQuestionsAnswers(response.data)
     } catch (error) {
       console.error(error);
     } finally {
@@ -270,10 +243,16 @@ const Questions = () => {
         ) : (
           <div className="w-4/6 mx-auto">
             <div className="my-4 text-center">
-              <p>
-                The database of the questions and answers has been exhausted.
-                <br /> You can export the quiz!
-              </p>
+              { isLoading ? (
+                <p>
+                  Loading...<br /> this may take up to two minutes...
+                </p>
+              ):(
+                <p>
+                  The database of the questions and answers has been exhausted.
+                  <br /> You can export the quiz!
+                </p>
+              )}
             </div>
           </div>
         )}
