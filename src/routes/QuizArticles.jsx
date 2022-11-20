@@ -40,7 +40,7 @@ const QuizArticles = () => {
   const questionsPageLink = useMemo(() => {
     return `/questions?articles=${selectedArticles
       .map((article) => article.url)
-      .join(",")}`;
+      .join(";")}`;
   }, [selectedArticles]);
   return (
     <div className={"w-full h-full flex"}>

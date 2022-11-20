@@ -70,7 +70,7 @@ const Questions = () => {
     try {
       setIsLoading(true);
       const response = await client.post("/quiz/generate", {
-        urls: articles.split(","),
+        urls: articles.split(";"),
       });
       // setQuestionsAnswers(response.data)
     } catch (error) {
