@@ -261,7 +261,7 @@ const Questions = () => {
       </div>
 
       <div className=" w-2/4 h-screen bg-slate-100 flex flex-col justify-center">
-        <div className=" w-4/6 h-4/6 my-auto mx-auto flex flex-col gap-4">
+        <div className=" w-4/6 h-4/6 my-auto mx-auto flex flex-col gap-4 overflow-y-auto">
           <p className=" text-2xl font-medium">Saved questions</p>
           {savedQuestionsAnswers.map((questionAnswer, index) => {
             return (
