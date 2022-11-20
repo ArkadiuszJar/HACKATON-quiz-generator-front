@@ -5,32 +5,35 @@ import {
   Divider,
   Button,
 } from "@chakra-ui/react";
-import { SearchIcon, LinkIcon } from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
 import { useCallback, useMemo, useState } from "react";
 import apiClient from "../adapters/apiClient";
 import cx from "classnames";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Buffer } from 'buffer'
 
 const QuizArticles = () => {
   const client = apiClient();
+  const [articleFilename, setArticleFilename] = useState(null)
+  const [articleBuffer, setArticleBuffer] = useState(null)
   const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchButtonLoading, setSearchButtonLoading] = useState(false);
   const [selectedArticles, setSelectedArticles] = useState([]);
   const searchArticles = useCallback(async () => {
     try {
-      setSearchButtonLoading(true);
+      setSearchButtonLoading(true)
       const response = await client.get("/articles/search", {
         params: {
           query: searchQuery,
-          size: 15,
-        },
-      });
+          size: 15
+        }
+      })
       setArticles(
         response.data.articles.filter((e, index, array) => {
           return array.findIndex((article) => article.url === e.url) === index;
         })
-      );
+      )
     } catch (error) {
       console.error(error);
     } finally {
@@ -38,9 +41,8 @@ const QuizArticles = () => {
     }
   }, [client, searchQuery]);
   const questionsPageLink = useMemo(() => {
-    return `/questions?articles=${selectedArticles
-      .map((article) => article.url)
-      .join(";")}`;
+    const selectedArticlesQuery = selectedArticles.map((article) => article.url).join(",");
+    return `/questions?articles=${selectedArticlesQuery}`;
   }, [selectedArticles]);
   return (
     <div className={"w-full h-full flex"}>
@@ -110,21 +112,43 @@ const QuizArticles = () => {
         ))}
       </div>
       <div className={"p-16 w-1/2 h-full flex flex-col"}>
-        <div className={"w-full bg-white border-b py-4 flex space-x-2"}>
-          <Link to={questionsPageLink} as={"button"}>
+        <div className={"w-full bg-white border-b py-4 flex items-center space-x-2"}>
+          <Link
+            to={questionsPageLink}
+            as={"button"}
+            state={{ articleBase64: articleBuffer && Buffer.from(articleBuffer).toString('base64') }}
+          >
             <Button
               colorScheme={"teal"}
-              disabled={selectedArticles.length === 0}
+              disabled={selectedArticles.length === 0 && !articleBuffer}
             >
               Generate quiz
             </Button>
           </Link>
           <Button
-            onClick={() => setSelectedArticles([])}
-            disabled={selectedArticles.length === 0}
+            onClick={() => {
+              setSelectedArticles([])
+              setArticleBuffer(null)
+              setArticleFilename(null)
+            }}
+            disabled={selectedArticles.length === 0 && !articleBuffer}
           >
             Clear
           </Button>
+          <input
+            id={'file-picker'}
+            type={'file'}
+            onChange={(e) => {
+              const reader = new FileReader()
+              const file = e.target.files[0]
+              reader.readAsArrayBuffer(file)
+              setArticleFilename(file.name)
+              reader.onload = (e) => {
+                setArticleBuffer(e.target.result)
+              }
+            }}
+            value={articleFilename ? undefined : ''}
+          />
         </div>
         <div className={"grid grid-cols-4 grid-rows-4 gap-6 mt-4"}>
           {selectedArticles.map((article, index) => (

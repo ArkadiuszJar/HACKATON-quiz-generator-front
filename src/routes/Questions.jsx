@@ -9,11 +9,12 @@ import {
 import { Button, Select } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import apiClient from "../adapters/apiClient";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import classNames from "classnames";
 
 const Questions = () => {
   const client = apiClient();
+  const { state } = useLocation()
   let [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [questionsAnswers, setQuestionsAnswers] = useState([]);
@@ -44,6 +45,7 @@ const Questions = () => {
       setIsLoading(true);
       const response = await client.post("/quiz/generate", {
         urls: articles.split(";"),
+        articleBase64: state.articleBase64,
       });
       setQuestionsAnswers(response.data)
     } catch (error) {
