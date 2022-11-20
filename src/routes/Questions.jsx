@@ -20,6 +20,8 @@ const Questions = () => {
   const [questionsAnswers, setQuestionsAnswers] = useState([]);
   const [savedQuestionsAnswers, setSavedQuestionsAnswers] = useState([]);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+  const [fileFormat, setFileFormat] = useState('pdf')
+  const [fileVersion, setFileVersion] = useState('true')
   const selectedQuestionAnswer = useMemo(() => {
     if (questionsAnswers.length === 0) {
       return null;
@@ -82,15 +84,15 @@ const Questions = () => {
           questions: savedQuestionsAnswers.map((questionAnswer) => {
             return {
               question: questionAnswer.question,
-              answer: questionAnswer.answers[0].text,
+              answer: questionAnswer.answers[0].text
             };
           }),
         },
         {
           responseType: "blob",
           params: {
-            fileFormat: document.getElementById("format").value,
-            withAnswers: document.getElementById("withAnswers").value,
+            fileFormat: fileFormat,
+            withAnswers: fileVersion
           },
         }
       );
@@ -99,7 +101,11 @@ const Questions = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [savedQuestionsAnswers]);
+  }, [
+    savedQuestionsAnswers,
+    fileFormat,
+    fileVersion
+  ])
 
   useEffect(() => {
     fetchQuestionsAnswers();
@@ -293,11 +299,25 @@ const Questions = () => {
           })}
         </div>
         <div className=" w-3/4 mx-auto mb-8 flex flex-col gap-2">
-          <Select id="format" placeholder="File format">
+          <Select
+            id="format"
+            placeholder="File format"
+            value={fileFormat}
+            onChange={(event) => {
+              setFileFormat(event.target.value)
+            }}
+          >
             <option value="docx">DOCX</option>
             <option value="pdf">PDF</option>
           </Select>
-          <Select id="answerKey" placeholder="Version">
+          <Select
+            id="answerKey"
+            value={fileVersion}
+            onChange={(event) => {
+              setFileVersion(event.target.value)
+            }}
+            placeholder="Version"
+          >
             <option value="true">With an answer key</option>
             <option value="false">Without an answer key</option>
           </Select>
