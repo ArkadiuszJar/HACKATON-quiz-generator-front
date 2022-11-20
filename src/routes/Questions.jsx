@@ -6,7 +6,7 @@ import {
   ArrowForwardIcon,
   WarningIcon,
 } from "@chakra-ui/icons";
-import { Button } from "@chakra-ui/react";
+import { Button, Select } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import apiClient from "../adapters/apiClient";
 import { useSearchParams } from "react-router-dom";
@@ -102,7 +102,7 @@ const Questions = () => {
   const exportQuiz = useCallback(async () => {
     try {
       const response = await client.post(
-        "/export-document?fileFormat=pdf&withAnswers=true",
+        `/export-document`,
         {
           questions: savedQuestionsAnswers.map((questionAnswer) => {
             return {
@@ -113,6 +113,10 @@ const Questions = () => {
         },
         {
           responseType: "blob",
+          params: {
+            fileFormat: document.getElementById("format").value,
+            withAnswers: document.getElementById("withAnswers").value,
+          },
         }
       );
       console.log(URL.createObjectURL(response.data));
@@ -133,7 +137,7 @@ const Questions = () => {
           <div className="w-4/6 mx-auto">
             <div className="my-4 relative">
               <p className={"text-gray-600"}>
-                Pytanie {selectedQuestionIndex + 1} z {totalQuestionsNumber}
+                Question {selectedQuestionIndex + 1} of {totalQuestionsNumber}
               </p>
               <input
                 className={
@@ -160,7 +164,7 @@ const Questions = () => {
               return (
                 <div key={index} className={"mt-4"}>
                   <p className={"text-gray-600"}>
-                    {answer.isCorrect ? "Dobra odpowiedź" : "Zła odpowiedź"}
+                    {answer.isCorrect ? "Right answer" : "Wrong answer"}
                   </p>
                   <div
                     className={classNames(
@@ -218,7 +222,7 @@ const Questions = () => {
                 });
               }}
             >
-              Dodaj odpowiedź
+              Add answer
             </Button>
             <div className="flex gap-4 mt-8 mb-4">
               {" "}
@@ -239,7 +243,7 @@ const Questions = () => {
                   handleRemoveQuestionAnswer(selectedQuestionIndex);
                 }}
               >
-                Zapisz do quizu
+                Save question
               </Button>
               <Button
                 onClick={() => {
@@ -259,7 +263,7 @@ const Questions = () => {
                 className={"hover:underline cursor-pointer"}
               >
                 <CloseIcon w={2.5} />
-                <p className="ml-1 text-xs">Odrzuć</p>
+                <p className="ml-1 text-xs">Decline</p>
               </Button>
             </div>
           </div>
@@ -267,8 +271,8 @@ const Questions = () => {
           <div className="w-4/6 mx-auto">
             <div className="my-4 text-center">
               <p>
-                Baza pytań i odpowiedzi została wyczerpana.
-                <br /> Możesz wyeksportować quiz!
+                The database of the questions and answers has been exhausted.
+                <br /> You can export the quiz!
               </p>
             </div>
           </div>
@@ -277,7 +281,7 @@ const Questions = () => {
 
       <div className=" w-2/4 h-screen bg-slate-100 flex flex-col justify-center">
         <div className=" w-4/6 h-4/6 my-auto mx-auto flex flex-col gap-4">
-          <p className=" text-2xl font-medium">Zapisane pytania</p>
+          <p className=" text-2xl font-medium">Saved questions</p>
           {savedQuestionsAnswers.map((questionAnswer, index) => {
             return (
               <div className=" bg-slate-200 rounded-lg">
@@ -289,14 +293,14 @@ const Questions = () => {
                   <div className="w-1 h-4 bg-green-600 rounded-md"></div>
 
                   <p className="text-base font-medium">
-                    Poprawna odpowiedź: {questionAnswer.answers[0].text}
+                    Right answer: {questionAnswer.answers[0].text}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 px-4 pt-2 pb-3">
                   <div className="w-1 h-4 bg-red-600 rounded-md"></div>
 
                   <p className="text-base font-medium">
-                    Niepoprawne odpowiedzi:{" "}
+                    Wrong answers:{" "}
                     {questionAnswer.answers
                       .filter((answer) => answer.isCorrect === false)
                       .map((answer) => answer.text)
@@ -307,17 +311,25 @@ const Questions = () => {
             );
           })}
         </div>
-        <Button
-          colorScheme="green"
-          color="white"
-          w={96}
-          onClick={exportQuiz}
-          mb={20}
-          disabled={savedQuestionsAnswers.length === 0}
-          mx="auto"
-        >
-          Eksportuj quiz
-        </Button>
+        <div className=" w-3/4 mx-auto mb-8 flex flex-col gap-2">
+          <Select id="format" placeholder="File format">
+            <option value="docx">DOCX</option>
+            <option value="pdf">PDF</option>
+          </Select>
+          <Select id="answerKey" placeholder="Version">
+            <option value="true">With an answer key</option>
+            <option value="false">Without an answer key</option>
+          </Select>
+          <Button
+            colorScheme="green"
+            color="white"
+            w="full"
+            onClick={exportQuiz}
+            disabled={savedQuestionsAnswers.length === 0}
+          >
+            Export
+          </Button>
+        </div>
       </div>
     </div>
   );

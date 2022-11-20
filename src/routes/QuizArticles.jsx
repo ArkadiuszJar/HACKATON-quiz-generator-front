@@ -47,11 +47,11 @@ const QuizArticles = () => {
       <div className={"p-16 w-1/2 h-full flex flex-col items-start"}>
         <FormLabel width={"100%"}>
           <label className={"font-semibold text-xl"}>
-            Wyszukaj temat artykułów
+            Search for articles topic
           </label>
           <div className={"flex items-center mt-2"}>
             <Input
-              placeholder="Powstanie warszawskie"
+              placeholder="Warsaw uprising"
               size={"lg"}
               variant={"filled"}
               value={searchQuery}
@@ -104,7 +104,7 @@ const QuizArticles = () => {
               className=" bg-blue-500 text-white mx-auto py-3 px-4 rounded-lg :hover:opacity-80 text-center"
               href={article.url}
             >
-              Podgląd
+              Preview
             </a>
           </div>
         ))}
@@ -116,14 +116,14 @@ const QuizArticles = () => {
               colorScheme={"teal"}
               disabled={selectedArticles.length === 0}
             >
-              Generuj quiz
+              Generate quiz
             </Button>
           </Link>
           <Button
             onClick={() => setSelectedArticles([])}
             disabled={selectedArticles.length === 0}
           >
-            Wyczyść
+            Clear
           </Button>
         </div>
         <div className={"grid grid-cols-4 grid-rows-4 gap-6 mt-4"}>

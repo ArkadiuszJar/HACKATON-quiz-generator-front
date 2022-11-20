@@ -1,44 +1,35 @@
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
-import { LockIcon } from "@chakra-ui/icons"
-import { Button, Link } from "@chakra-ui/react"
-import { EmailIcon } from "@chakra-ui/icons"
-import { useState } from 'react'
-import { useCookies } from 'react-cookie'
-import { Link as LinkRouter, useNavigate } from 'react-router-dom'
-import { register } from '../adapters/register'
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { LockIcon } from "@chakra-ui/icons";
+import { Button, Link } from "@chakra-ui/react";
+import { EmailIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { Link as LinkRouter, useNavigate } from "react-router-dom";
+import { register } from "../adapters/register";
 
 const Register = () => {
-  const navigate = useNavigate()
-  const [, setCookie] = useCookies(['bearerToken'])
-  const [
-    registerButtonLoading,
-    setRegisterButtonLoading,
-  ] = useState(false)
-  const[
-    email,
-    setEmail
-  ] = useState('')
-  const [
-    password,
-    setPassword
-  ] = useState('')
+  const navigate = useNavigate();
+  const [, setCookie] = useCookies(["bearerToken"]);
+  const [registerButtonLoading, setRegisterButtonLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const handleRegister = async () => {
     try {
-      setRegisterButtonLoading(true)
-      const response = await register(email, password)
-      setCookie('bearerToken', response.data.bearerToken)
-      navigate('/quiz/articles')
+      setRegisterButtonLoading(true);
+      const response = await register(email, password);
+      setCookie("bearerToken", response.data.bearerToken);
+      navigate("/quiz/articles");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setRegisterButtonLoading(false)
+      setRegisterButtonLoading(false);
     }
-  }
+  };
   return (
     <div className="bg-slate-100 w-screen h-screen flex items-center justify-center ">
       <div className="bg-white w-1/4 rounded-3xl flex flex-col items-center p-8">
         <p className="text-slate-700 font-lato font-bold text-3xl text-center">
-          Zarejestruj się
+          Register
         </p>
         <div className="mx-auto flex flex-col items-center">
           <InputGroup mt={6}>
@@ -49,16 +40,16 @@ const Register = () => {
             />
             <Input
               size="lg"
-              placeholder="Adres e-mail"
+              placeholder="E-mail address"
               _placeholder={{ opacity: 1, color: "black" }}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleRegister()
+                if (e.key === "Enter") {
+                  handleRegister();
                 }
               }}
-              type={'email'}
+              type={"email"}
             />
           </InputGroup>
           <InputGroup mt={4}>
@@ -70,16 +61,16 @@ const Register = () => {
             <Input
               size="lg"
               color="black"
-              placeholder="Hasło"
+              placeholder="Password"
               _placeholder={{ opacity: 1, color: "black" }}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleRegister()
+                if (e.key === "Enter") {
+                  handleRegister();
                 }
               }}
-              type={'password'}
+              type={"password"}
             />
           </InputGroup>
           <Button
@@ -91,13 +82,10 @@ const Register = () => {
             onClick={handleRegister}
             isLoading={registerButtonLoading}
           >
-            Zarejestruj się
+            Register now
           </Button>
-          <Link
-            as={LinkRouter}
-            to={'/login'}
-          >
-            Masz już konto? Zaloguj się
+          <Link as={LinkRouter} to={"/login"}>
+            Have account? Log in
           </Link>
         </div>
       </div>
