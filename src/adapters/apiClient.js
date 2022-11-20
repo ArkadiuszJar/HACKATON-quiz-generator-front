@@ -1,7 +1,8 @@
 import axios from 'axios'
+import env from "react-dotenv"
 
 const apiClient = (data) => axios.create({
-	baseURL: 'http://localhost:4000',
+	baseURL: env.API_BASE_URL,
 	headers: {
 		Authorization: `Bearer ${data?.bearerToken}`
 	}
