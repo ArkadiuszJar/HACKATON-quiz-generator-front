@@ -1,8 +1,9 @@
 import { FormLabel, Input, IconButton, Divider, Button } from '@chakra-ui/react'
 import { SearchIcon, LinkIcon } from '@chakra-ui/icons'
-import { useCallback, useState } from 'react'
+import {useCallback, useMemo, useState} from 'react'
 import apiClient from '../adapters/apiClient'
 import cx from 'classnames'
+import {Link, redirect} from "react-router-dom"
 
 const QuizArticles = () => {
   const client = apiClient()
@@ -40,6 +41,11 @@ const QuizArticles = () => {
       setSearchButtonLoading(false)
     }
   }, [client, searchQuery])
+  const questionsPageLink = useMemo(() => {
+    return `/questions?articles=${selectedArticles.map(article => article.url).join(',')}`
+  }, [
+    selectedArticles
+  ])
   return (
     <div
       className={'w-full h-full flex'}
@@ -114,12 +120,17 @@ const QuizArticles = () => {
         <div
           className={'w-full bg-white border-b py-4 flex space-x-2'}
         >
-          <Button
-            colorScheme={'teal'}
-            disabled={selectedArticles.length === 0}
+          <Link
+            to={questionsPageLink}
+            as={'button'}
           >
-            Generuj quiz
-          </Button>
+            <Button
+              colorScheme={'teal'}
+              disabled={selectedArticles.length === 0}
+            >
+              Generuj quiz
+            </Button>
+          </Link>
           <Button
             onClick={() => setSelectedArticles([])}
             disabled={selectedArticles.length === 0}
