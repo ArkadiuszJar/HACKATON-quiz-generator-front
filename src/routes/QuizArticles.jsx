@@ -41,7 +41,7 @@ const QuizArticles = () => {
     }
   }, [client, searchQuery]);
   const questionsPageLink = useMemo(() => {
-    const selectedArticlesQuery = selectedArticles.map((article) => article.url).join(",");
+    const selectedArticlesQuery = selectedArticles.map((article) => article.url).join(";");
     return `/questions?articles=${selectedArticlesQuery}`;
   }, [selectedArticles]);
   return (
