@@ -283,17 +283,18 @@ const Questions = () => {
                     Right answer: {questionAnswer.answers[0].text}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 px-4 pt-2 pb-3">
-                  <div className="w-1 h-4 bg-red-600 rounded-md"></div>
-
-                  <p className="text-base font-medium">
-                    Wrong answers:{" "}
-                    {questionAnswer.answers
-                      .filter((answer) => answer.isCorrect === false)
-                      .map((answer) => answer.text)
-                      .join(", ")}
-                  </p>
-                </div>
+                { questionAnswer.answers.filter((answer) => answer.isCorrect === false).length > 0 ? (
+                  <div className="flex items-center gap-2 px-4 pt-2 pb-3">
+                    <div className="w-1 h-4 bg-red-600 rounded-md"></div>
+                    <p className="text-base font-medium">
+                      Wrong answers:{" "}
+                      {questionAnswer.answers
+                        .filter((answer) => answer.isCorrect === false)
+                        .map((answer) => answer.text)
+                        .join(", ")}
+                    </p>
+                  </div>
+                ):null}
               </div>
             );
           })}
