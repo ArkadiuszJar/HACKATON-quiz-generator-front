@@ -159,7 +159,7 @@ const Questions = () => {
                         type={"text"}
                         value={answer.text}
                         className={
-                          "bg-transparent border-none outline-none grow flex flex-1"
+                          "bg-transparent border-none outline-none grow flex flex-1 pr-8"
                         }
                         onInput={(event) => {
                           const value = event.target.value;
