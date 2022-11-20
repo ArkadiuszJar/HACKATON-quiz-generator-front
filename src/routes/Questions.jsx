@@ -104,7 +104,7 @@ const Questions = () => {
       })
     ])
   }, [
-
+    questionsAnswers
   ])
 
   useEffect(() => {
@@ -118,19 +118,30 @@ const Questions = () => {
       <div className=" w-2/4 h-screen bg-white flex flex-col justify-center">
         { questionsAnswers.length > 0 ? (
           <div className="w-4/6 mx-auto">
-            <div className="my-4">
+            <div className="my-4 relative">
               <p
                 className={'text-gray-600'}
               >
                 Pytanie {selectedQuestionIndex + 1} z {totalQuestionsNumber}
               </p>
-              <p className=" text-2xl font-medium">
-                {selectedQuestionAnswer?.question}{" "}
-                <span className=" text-xs">
-                <EditIcon />
-                Edytuj
-              </span>
-              </p>
+              <input
+                className={'w-full border border-gray-300 rounded p-2 my-2 text-xl font-semibold'}
+                type="text"
+                value={selectedQuestionAnswer.question}
+                onChange={(event) => {
+                  setQuestionsAnswers(current => {
+                    return current.map((question, index) => {
+                      if (index === selectedQuestionIndex) {
+                        return {
+                          ...question,
+                          question: event.target.value
+                        }
+                      }
+                      return question
+                    })
+                  })
+                }}
+              />
             </div>
             { selectedQuestionAnswer.answers.map((answer, index) => {
               return (
@@ -145,14 +156,15 @@ const Questions = () => {
                   </p>
                   <div
                     className={classNames(
-                      'flex items-center gap-4 bg-slate-200 border-b-4 border-black box-border p-2 rounded-md',
+                      'flex items-center gap-4 bg-slate-100 border-b-4 border-black box-border px-2 py-2 rounded-md',
                       answer.isCorrect ? 'border-b-green-600' : 'border-b-red-600'
                     )}
                   >
                     { answer.isCorrect ? (
                       <CheckIcon
-                        w={6}
+                        w={3.5}
                         color="green"
+                        className={'ml-1'}
                       />
                     ):(
                       <CloseIcon
@@ -161,7 +173,7 @@ const Questions = () => {
                         className={'ml-1'}
                       />
                     )}
-                    <p className="relative ml-1 w-full text-2xl font-light flex items-center">
+                    <p className="relative w-full text-xl flex items-center">
                       <input
                         type={'text'}
                         value={answer.text}
@@ -179,8 +191,8 @@ const Questions = () => {
                         className={'absolute right-0 mr-2 flex items-center justify-center pointer-events-none'}
                       >
                         <EditIcon
-                          w={5}
-                          color={'#4A5568'}
+                          w={4}
+                          color={'#6e7891'}
                         />
                       </div>
                     </p>
@@ -188,6 +200,21 @@ const Questions = () => {
                 </div>
               )
             })}
+            <Button
+              className={'mt-4'}
+              onClick={() => {
+                setQuestionsAnswers(current => {
+                  const newQuestionsAnswers = [...current]
+                  newQuestionsAnswers[selectedQuestionIndex].answers.push({
+                    text: '',
+                    isCorrect: false
+                  })
+                  return newQuestionsAnswers
+                })
+              }}
+            >
+              Dodaj odpowiedź
+            </Button>
             <div className="flex gap-4 mt-8 mb-4">
               {" "}
               <Button
@@ -243,8 +270,8 @@ const Questions = () => {
           <p className=" text-2xl font-medium">Zapisane pytania</p>
           { savedQuestionsAnswers.map((questionAnswer, index) => {
             return (
-              <div className=" bg-slate-200 rounded-xl">
-                <p className=" bg-white px-4 py-4 rounded-t-xl text-xl font-semibold">
+              <div className=" bg-slate-200 rounded-lg">
+                <p className=" bg-white px-4 py-4 rounded-t-lg text-xl font-semibold">
                   {questionAnswer.question}
                 </p>
 
