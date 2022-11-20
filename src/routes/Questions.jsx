@@ -99,6 +99,29 @@ const Questions = () => {
     [questionsAnswers]
   );
 
+  const exportQuiz = useCallback(async () => {
+    try {
+      const response = await client.post(
+        "/export-document?fileFormat=pdf&withAnswers=true",
+        {
+          questions: savedQuestionsAnswers.map((questionAnswer) => {
+            return {
+              question: questionAnswer.question,
+              answer: questionAnswer.answers[0].text,
+            };
+          }),
+        },
+        {
+          responseType: "blob",
+        }
+      );
+      console.log(URL.createObjectURL(response.data));
+      window.open(URL.createObjectURL(response.data));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [savedQuestionsAnswers]);
+
   useEffect(() => {
     fetchQuestionsAnswers();
   }, [searchParams]);
@@ -288,6 +311,7 @@ const Questions = () => {
           colorScheme="green"
           color="white"
           w={96}
+          onClick={exportQuiz}
           mb={20}
           disabled={savedQuestionsAnswers.length === 0}
           mx="auto"
