@@ -4,8 +4,8 @@ import { Link as LinkRouter, useNavigate } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center bg-slate-400 gap-4">
-      <h1 className=" text-4xl text-center text-white font-semibold ">
+    <div className="w-screen h-screen flex flex-col justify-center items-center bg-slate-100 gap-4">
+      <h1 className=" text-4xl text-center text-slate-700 font-semibold ">
         ERROR 404
         <br /> <span className="text-2xl font-medium"> - Page Not Found -</span>
       </h1>
