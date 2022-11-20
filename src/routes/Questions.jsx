@@ -69,7 +69,7 @@ const Questions = () => {
       setQuestionsAnswers((current) => [
         // Remove current question
         ...current.filter((question, index) => {
-          return index !== selectedQuestionIndex;
+          return index !== questionAnswerIndex;
         }),
       ]);
     },
