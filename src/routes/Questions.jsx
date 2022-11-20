@@ -200,6 +200,21 @@ const Questions = () => {
                 </div>
               )
             })}
+            <Button
+              className={'mt-4'}
+              onClick={() => {
+                setQuestionsAnswers(current => {
+                  const newQuestionsAnswers = [...current]
+                  newQuestionsAnswers[selectedQuestionIndex].answers.push({
+                    text: '',
+                    isCorrect: false
+                  })
+                  return newQuestionsAnswers
+                })
+              }}
+            >
+              Dodaj odpowiedź
+            </Button>
             <div className="flex gap-4 mt-8 mb-4">
               {" "}
               <Button
