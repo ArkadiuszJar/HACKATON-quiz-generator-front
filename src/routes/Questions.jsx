@@ -26,7 +26,7 @@ const Questions = () => {
     }
     if (selectedQuestionIndex > questionsAnswers.length - 1) {
       setSelectedQuestionIndex(questionsAnswers.length - 1);
-      return setQuestionsAnswers[questionsAnswers.length - 1];
+      return questionsAnswers[questionsAnswers.length - 1];
     }
     return questionsAnswers[selectedQuestionIndex];
   }, [selectedQuestionIndex, questionsAnswers]);
